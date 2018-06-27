@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CPES">
+      <HintPath>..\..\..\CPES\CPES\CPES\bin\Release\CPES.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -54,7 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CPES.xaml">
+    <Page Include="MainCPES.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -62,8 +65,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CPES.xaml.cs">
-      <DependentUpon>CPES.xaml</DependentUpon>
+    <Compile Include="MainCPES.xaml.cs">
+      <DependentUpon>MainCPES.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

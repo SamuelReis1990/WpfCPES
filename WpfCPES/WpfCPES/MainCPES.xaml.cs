@@ -1,29 +1,29 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using CPES.Models;
+using System.Diagnostics;
 
 namespace WpfCPES
 {
     /// <summary>
     /// Interação lógica para MainWindow.xam
     /// </summary>
-    public partial class CPES : Window
+    public partial class MainCPES : Window
     {
-        public CPES()
+        Erro erro = new Erro();
+
+        public MainCPES()
         {
             InitializeComponent();
+            stkCabecalho.Background = new SolidColorBrush(Color.FromRgb(42, 46, 50));
+            txtArquivo1.Text = "...Informe a planilha das matrículas";
+            txtArquivo2.Text = "...Informe a planilha dos endereços";
+            txtArquivo3.Text = "...Informe a planilha das lotações";            
         }
 
         #region StackePanel Cabeçalho
@@ -46,17 +46,18 @@ namespace WpfCPES
         }
 
         private void btnArquivo1_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             openFileDialog.DefaultExt = ".xls";
             openFileDialog.Filter = "XLS Files (*.xls)|*.xls";
 
             var resultado = openFileDialog.ShowDialog();
-            
+
             if (resultado == true)
-            {                
+            {
                 string caminhoArquivo = openFileDialog.FileName;
+                stkMensagem.Visibility = Visibility.Hidden;
                 txtArquivo1.Text = caminhoArquivo;
                 btnArquivo2.IsEnabled = true;
                 stkArquivo2.Opacity = 1;
@@ -93,6 +94,7 @@ namespace WpfCPES
             if (resultado == true)
             {
                 string caminhoArquivo = openFileDialog.FileName;
+                stkMensagem.Visibility = Visibility.Hidden;
                 txtArquivo2.Text = caminhoArquivo;
                 btnArquivo3.IsEnabled = true;
                 stkArquivo3.Opacity = 1;
@@ -129,6 +131,7 @@ namespace WpfCPES
             if (resultado == true)
             {
                 string caminhoArquivo = openFileDialog.FileName;
+                stkMensagem.Visibility = Visibility.Hidden;
                 txtArquivo3.Text = caminhoArquivo;
                 btnExecutar.IsEnabled = true;
                 stkRodape.Opacity = 1;
@@ -155,7 +158,83 @@ namespace WpfCPES
 
         private void btnExecutar_Click(object sender, RoutedEventArgs e)
         {
+            var template = btnExecutar.Template;
+            var txtExecutar = (TextBlock)template.FindName("txtExecutar", btnExecutar);
 
+            try
+            {
+                btnExecutar.IsEnabled = false;
+                stkRodape.Opacity = 0.5;                
+                txtExecutar.Text = "Aguarde...";
+
+                #region Grava os parametros de entrada caso haja algum tipo de erro
+
+                erro.CaminhoArquivoParametro = txtArquivo1.Text;
+                erro.CaminhoArquivoEndereco = txtArquivo2.Text;
+                erro.CaminhoArquivoLotacao = txtArquivo3.Text;
+                erro.TabelaParametro = "PESQUISA";
+                erro.TabelaEndereco = "RJCDC";
+                erro.TabelaLotacao = "RJCD";
+                erro.NumColMatricula = 1;
+                erro.NumColMatriculaEndereco = 1;
+                erro.NumColMatriculaLotacao = 1;
+                erro.NumColNome = 2;
+                erro.NumColEndereco = 5;
+                erro.NumColNumero = 6;
+                erro.NumColComplemento = 7;
+                erro.NumColBairro = 8;
+                erro.NumColCidade = 9;
+                erro.NumColUF = 10;
+                erro.NumColCEP = 11;
+                erro.NumColLotacao = 26;
+
+                #endregion   
+
+                var planilhaParametro = CPES.CPES.GetExcel(txtArquivo1.Text, "PESQUISA$", 1, 1, 1);
+                var planilhaEndereco = CPES.CPES.GetExcel(txtArquivo2.Text, "RJCDC$");
+                var planilhaLotacao = CPES.CPES.GetExcel(txtArquivo3.Text, "RJCD$", 1, 1, 1);
+
+                var colParametro = planilhaParametro.Select(s => s.Table.Columns).First();
+                var colEndereco = planilhaEndereco.Select(s => s.Table.Columns).First();
+                var colLotacao = planilhaLotacao.Select(s => s.Table.Columns).First();
+
+                string[] retorno = CPES.CPES.GetDados(planilhaParametro, planilhaEndereco, planilhaLotacao, colParametro, colEndereco, colLotacao);
+
+                stkMensagem.Visibility = Visibility.Visible;
+                txtMensagem.Foreground = new SolidColorBrush(Color.FromRgb(60, 118, 61));
+                txtMensagem.Background = new SolidColorBrush(Color.FromRgb(223, 240, 216));
+                txtMensagem.Text = string.Empty;
+                txtMensagem.Text = string.Format("Operação realizada com sucesso!\nFoi gerado o arquivo {0} \nem {1} \ncom um total de {2} registros.", retorno[0], retorno[1], retorno[2]);
+
+                btnExecutar.IsEnabled = true;
+                stkRodape.Opacity = 1;
+                txtExecutar.Text = "Executar";
+            }
+            catch (Exception ex)
+            {
+                var stackTrace = new StackTrace(ex, true);
+                var frames = stackTrace.GetFrames();
+
+                string textoStackTrace = string.Empty;
+                foreach (var frame in frames)
+                {
+                    textoStackTrace += "Metodo do erro: " + frame.GetMethod().Name.ToString() + " Linha do erro: " + frame.GetFileLineNumber().ToString() + ", ";
+                }
+
+                erro.Mensagem = ex.Message;
+                erro.StackTrace = textoStackTrace;
+                string[] retorno = CPES.CPES.CreateCsvErro(erro);
+
+                stkMensagem.Visibility = Visibility.Visible;
+                txtMensagem.Foreground = new SolidColorBrush(Color.FromRgb(169, 68, 66));
+                txtMensagem.Background = new SolidColorBrush(Color.FromRgb(242, 222, 222));
+                txtMensagem.Text = string.Empty;
+                txtMensagem.Text = string.Format("Houve um erro!\nFoi gerado um arquivo de log de erro: {0} \nem {1} \nTente novamente mais tarde ou contacte o administrador do sistema.", retorno[0], retorno[1]);
+
+                btnExecutar.IsEnabled = true;
+                stkRodape.Opacity = 1;
+                txtExecutar.Text = "Executar";
+            }
         }
 
         #endregion       
