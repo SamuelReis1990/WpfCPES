@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CPES.Models;
 using System.Diagnostics;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace WpfCPES
 {
@@ -23,7 +25,7 @@ namespace WpfCPES
             stkCabecalho.Background = new SolidColorBrush(Color.FromRgb(42, 46, 50));
             txtArquivo1.Text = "...Informe a planilha das matrículas";
             txtArquivo2.Text = "...Informe a planilha dos endereços";
-            txtArquivo3.Text = "...Informe a planilha das lotações";            
+            txtArquivo3.Text = "...Informe a planilha das lotações";
         }
 
         #region StackePanel Cabeçalho
@@ -35,7 +37,7 @@ namespace WpfCPES
         {
             var template = btnArquivo1.Template;
             var brdArquivo1 = (Border)template.FindName("brdArquivo1", btnArquivo1);
-            brdArquivo1.Background = Brushes.LightBlue;
+            brdArquivo1.Background = Brushes.LightBlue;                        
         }
 
         private void btnArquivo1_MouseLeave(object sender, MouseEventArgs e)
@@ -140,13 +142,37 @@ namespace WpfCPES
 
         #endregion
 
+        #region StackePanel Mensagem
+
+        private void btnMensagem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var template = btnMensagem.Template;
+            var brdMensagem = (Border)template.FindName("brdMensagem", btnMensagem);
+            brdMensagem.Background = Brushes.LightBlue;
+        }
+
+        private void btnMensagem_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var template = btnMensagem.Template;
+            var brdMensagem = (Border)template.FindName("brdMensagem", btnMensagem);
+            brdMensagem.Background = Brushes.LightGray;
+        }
+
+        private void btnMensagem_Click(object sender, RoutedEventArgs e)
+        {
+            txtMensagem.Text = string.Empty;
+            FadeOut(stkMensagem);
+        }
+
+        #endregion
+
         #region StackePanel Rodapé
 
         private void btnExecutar_MouseEnter(object sender, MouseEventArgs e)
         {
             var template = btnExecutar.Template;
             var brdExecutar = (Border)template.FindName("brdExecutar", btnExecutar);
-            brdExecutar.Background = new SolidColorBrush(Color.FromRgb(91, 175, 70));
+            brdExecutar.Background = new SolidColorBrush(Color.FromRgb(91, 175, 70));            
         }
 
         private void btnExecutar_MouseLeave(object sender, MouseEventArgs e)
@@ -164,7 +190,7 @@ namespace WpfCPES
             try
             {
                 btnExecutar.IsEnabled = false;
-                stkRodape.Opacity = 0.5;                
+                stkRodape.Opacity = 0.5;
                 txtExecutar.Text = "Aguarde...";
 
                 #region Grava os parametros de entrada caso haja algum tipo de erro
@@ -205,6 +231,7 @@ namespace WpfCPES
                 txtMensagem.Background = new SolidColorBrush(Color.FromRgb(223, 240, 216));
                 txtMensagem.Text = string.Empty;
                 txtMensagem.Text = string.Format("Operação realizada com sucesso!\nFoi gerado o arquivo {0} \nem {1} \ncom um total de {2} registros.", retorno[0], retorno[1], retorno[2]);
+                FadeIn(stkMensagem);
 
                 btnExecutar.IsEnabled = true;
                 stkRodape.Opacity = 1;
@@ -237,6 +264,48 @@ namespace WpfCPES
             }
         }
 
-        #endregion       
+        #endregion        
+
+        #region Comum
+
+        public void FadeIn(StackPanel sender)
+        {
+            var a = new DoubleAnimation
+            {
+                From = 0.0,
+                To = 1.0,
+                FillBehavior = FillBehavior.Stop,
+                BeginTime = TimeSpan.FromSeconds(0),
+                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+            };
+            var storyboard = new Storyboard();
+
+            storyboard.Children.Add(a);
+            Storyboard.SetTarget(a, sender);
+            Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
+            storyboard.Completed += delegate { sender.Visibility = Visibility.Visible; };
+            storyboard.Begin();
+        }
+
+        public void FadeOut(StackPanel sender)
+        {
+            var a = new DoubleAnimation
+            {
+                From = 1.0,
+                To = 0.0,
+                FillBehavior = FillBehavior.Stop,
+                BeginTime = TimeSpan.FromSeconds(0),
+                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+            };
+            var storyboard = new Storyboard();
+
+            storyboard.Children.Add(a);
+            Storyboard.SetTarget(a, sender);
+            Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
+            storyboard.Completed += delegate { sender.Visibility = Visibility.Hidden; };
+            storyboard.Begin();
+        }
+
+        #endregion
     }
 }

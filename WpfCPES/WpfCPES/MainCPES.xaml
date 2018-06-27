@@ -6,6 +6,15 @@
         xmlns:local="clr-namespace:WpfCPES"
         mc:Ignorable="d"
         Title="CPES" Height="500" Width="1000" TextBlock.TextAlignment="Center" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Background="Purple">
+    <!--<Window.Triggers>
+            <EventTrigger RoutedEvent="Window.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Duration="00:00:02" Storyboard.TargetProperty="Opacity" From="0" To="1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Window.Triggers>-->
     <Grid>
         <StackPanel x:Name="stkCabecalho" RenderTransformOrigin="0.615,0.587" Margin="0,0,0,425" Orientation="Horizontal">
             <Label x:Name="labelCabecalho" Height="auto" Content="Bem vindo ao CPES" Margin="430,0,0,0" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
@@ -21,7 +30,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <TextBox IsEnabled="False" Width="310" Height="20" x:Name="txtArquivo1" HorizontalAlignment="Left" FontStyle="Italic">
+            <TextBox IsEnabled="False" Width="310" Height="20" x:Name="txtArquivo1" HorizontalAlignment="Left" FontStyle="Italic" Margin="0,3,0,0">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="6"/>
@@ -40,7 +49,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <TextBox IsEnabled="False" Width="310" Height="20" x:Name="txtArquivo2" HorizontalAlignment="Left" FontStyle="Italic">
+            <TextBox IsEnabled="False" Width="310" Height="20" x:Name="txtArquivo2" HorizontalAlignment="Left" FontStyle="Italic" Margin="0,3,0,0">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="6"/>
@@ -59,7 +68,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <TextBox IsEnabled="False" Width="310" Height="20" x:Name="txtArquivo3" HorizontalAlignment="Left" FontStyle="Italic">
+            <TextBox IsEnabled="False" Width="310" Height="20" x:Name="txtArquivo3" HorizontalAlignment="Left" FontStyle="Italic" Margin="0,3,0,0">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="6"/>
@@ -67,20 +76,32 @@
                 </TextBox.Resources>
             </TextBox>
         </StackPanel>
-        <StackPanel x:Name="stkMensagem" Visibility="Hidden" Margin="10,248,10,120" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox x:Name="txtMensagem" IsReadOnly="True" Height="80" FontSize="15" Width="655">
+        <StackPanel x:Name="stkMensagem" Visibility="Hidden" Margin="10,226,10,94" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="151" Width="974" >
+            <TextBox x:Name="txtMensagem" IsReadOnly="True" Height="106" FontSize="15" Width="655" Margin="160,0,0,0">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="6"/>
                     </Style>
                 </TextBox.Resources>
+                <TextBox.Effect>
+                    <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2"/>
+                </TextBox.Effect>
             </TextBox>
-        </StackPanel>
-        <StackPanel x:Name="stkRodape" RenderTransformOrigin="0.615,0.587" Margin="10,382,10,10" Orientation="Horizontal" Opacity="0.5">
-            <Button  x:Name="btnExecutar" IsEnabled="False" MouseEnter="btnExecutar_MouseEnter" MouseLeave="btnExecutar_MouseLeave" Click="btnExecutar_Click" Cursor="Hand">
+            <Button x:Name="btnMensagem" MouseEnter="btnMensagem_MouseEnter" MouseLeave="btnMensagem_MouseLeave" Click="btnMensagem_Click" Cursor="Hand" Margin="-60,80,0,0" Width="40" Height="20">
                 <Button.Template>
                     <ControlTemplate>
-                        <Border x:Name="brdExecutar" Margin="370,0,0,0" Background="Green" Height="50" Width="250" CornerRadius="6" BorderBrush="Aqua" BorderThickness="2">
+                        <Border x:Name="brdMensagem" Width="40" Height="20" Background="LightGray" CornerRadius="6" BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left">
+                            <TextBlock Text="OK" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+        <StackPanel x:Name="stkRodape" RenderTransformOrigin="0.615,0.587" Margin="10,382,10,10" Orientation="Horizontal" Opacity="0.5" >
+            <Button  x:Name="btnExecutar" IsEnabled="False" Margin="360,0,0,0" Width="250" Height="50" MouseEnter="btnExecutar_MouseEnter" MouseLeave="btnExecutar_MouseLeave" Click="btnExecutar_Click" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border x:Name="brdExecutar" Background="Green" Height="50" Width="250" CornerRadius="6" BorderBrush="Aqua" BorderThickness="2">
                             <TextBlock x:Name="txtExecutar" Text="Executar" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20"/>
                         </Border>
                     </ControlTemplate>
