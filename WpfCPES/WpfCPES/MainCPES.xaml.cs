@@ -9,6 +9,7 @@ using CPES.Models;
 using System.Diagnostics;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfCPES
 {
@@ -23,9 +24,9 @@ namespace WpfCPES
         {
             InitializeComponent();
             stkCabecalho.Background = new SolidColorBrush(Color.FromRgb(42, 46, 50));
-            txtArquivo1.Text = "...Informe a planilha das matrículas";
-            txtArquivo2.Text = "...Informe a planilha dos endereços";
-            txtArquivo3.Text = "...Informe a planilha das lotações";
+            txtArquivo1.Text = "...Informe a planilha das matrículas (PESQUISA)";
+            txtArquivo2.Text = "...Informe a planilha dos endereços (RJCDC)";
+            txtArquivo3.Text = "...Informe a planilha das lotações (RJCD)";
         }
 
         #region StackePanel Cabeçalho
@@ -225,8 +226,7 @@ namespace WpfCPES
                 var colLotacao = planilhaLotacao.Select(s => s.Table.Columns).First();
 
                 string[] retorno = CPES.CPES.GetDados(planilhaParametro, planilhaEndereco, planilhaLotacao, colParametro, colEndereco, colLotacao);
-
-                stkMensagem.Visibility = Visibility.Visible;
+                
                 txtMensagem.Foreground = new SolidColorBrush(Color.FromRgb(60, 118, 61));
                 txtMensagem.Background = new SolidColorBrush(Color.FromRgb(223, 240, 216));
                 txtMensagem.Text = string.Empty;
@@ -251,12 +251,12 @@ namespace WpfCPES
                 erro.Mensagem = ex.Message;
                 erro.StackTrace = textoStackTrace;
                 string[] retorno = CPES.CPES.CreateCsvErro(erro);
-
-                stkMensagem.Visibility = Visibility.Visible;
+                
                 txtMensagem.Foreground = new SolidColorBrush(Color.FromRgb(169, 68, 66));
                 txtMensagem.Background = new SolidColorBrush(Color.FromRgb(242, 222, 222));
                 txtMensagem.Text = string.Empty;
                 txtMensagem.Text = string.Format("Houve um erro!\nFoi gerado um arquivo de log de erro: {0} \nem {1} \nTente novamente mais tarde ou contacte o administrador do sistema.", retorno[0], retorno[1]);
+                FadeIn(stkMensagem);
 
                 btnExecutar.IsEnabled = true;
                 stkRodape.Opacity = 1;
@@ -270,13 +270,15 @@ namespace WpfCPES
 
         public void FadeIn(StackPanel sender)
         {
+            sender.Visibility = Visibility.Visible;
+
             var a = new DoubleAnimation
             {
                 From = 0.0,
                 To = 1.0,
                 FillBehavior = FillBehavior.Stop,
                 BeginTime = TimeSpan.FromSeconds(0),
-                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+                Duration = new Duration(TimeSpan.FromSeconds(1))
             };
             var storyboard = new Storyboard();
 
