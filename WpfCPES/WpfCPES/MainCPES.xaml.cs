@@ -19,17 +19,71 @@ namespace WpfCPES
     public partial class MainCPES : Window
     {
         Erro erro = new Erro();
+        StackPanel stackPanel;        
+        DispatcherTimer dispatcherTimer;
+        Double value;
 
         public MainCPES()
         {
             InitializeComponent();
             stkCabecalho.Background = new SolidColorBrush(Color.FromRgb(42, 46, 50));
+            btnCabecalhoFechar.Background = new SolidColorBrush(Color.FromRgb(42, 46, 50));
+            btnCabecalhoFechar.BorderBrush = new SolidColorBrush(Color.FromRgb(42, 46, 50));
+            btnCabecalhoMinimizar.Background = new SolidColorBrush(Color.FromRgb(42, 46, 50));
+            btnCabecalhoMinimizar.BorderBrush = new SolidColorBrush(Color.FromRgb(42, 46, 50));
             txtArquivo1.Text = "...Informe a planilha das matrículas (PESQUISA)";
             txtArquivo2.Text = "...Informe a planilha dos endereços (RJCDC)";
-            txtArquivo3.Text = "...Informe a planilha das lotações (RJCD)";
+            txtArquivo3.Text = "...Informe a planilha das lotações (RJCD)";            
         }
 
         #region StackePanel Cabeçalho
+
+        private void btnCabecalhoFechar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var template = btnCabecalhoFechar.Template;
+            var brdCabecalhoFechar = (Border)template.FindName("brdCabecalhoFechar", btnCabecalhoFechar);
+            brdCabecalhoFechar.Background = Brushes.Red;
+            brdCabecalhoFechar.BorderBrush = Brushes.Red;
+        }
+
+        private void btnCabecalhoFechar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var template = btnCabecalhoFechar.Template;
+            var brdCabecalhoFechar = (Border)template.FindName("brdCabecalhoFechar", btnCabecalhoFechar);
+            brdCabecalhoFechar.Background = new SolidColorBrush(Color.FromRgb(42, 46, 50));
+            brdCabecalhoFechar.BorderBrush = new SolidColorBrush(Color.FromRgb(42, 46, 50));
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
+        private void btnCabecalhoMinimizar_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void btnCabecalhoFechar_Click(object sender, RoutedEventArgs e)
+        {
+            var a = new DoubleAnimation
+            {
+                From = 1.0,
+                To = 0.0,
+                FillBehavior = FillBehavior.Stop,
+                BeginTime = TimeSpan.FromSeconds(0),
+                Duration = new Duration(TimeSpan.FromSeconds(1))
+            };
+            var storyboard = new Storyboard();
+
+            storyboard.Children.Add(a);
+            Storyboard.SetTarget(a, this.WindowsCPES);
+            Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
+            storyboard.Completed += delegate { Close(); };
+            storyboard.Begin();            
+        }
+
         #endregion
 
         #region StackePanel Arquivo 1       
@@ -38,7 +92,7 @@ namespace WpfCPES
         {
             var template = btnArquivo1.Template;
             var brdArquivo1 = (Border)template.FindName("brdArquivo1", btnArquivo1);
-            brdArquivo1.Background = Brushes.LightBlue;                        
+            brdArquivo1.Background = Brushes.LightBlue;
         }
 
         private void btnArquivo1_MouseLeave(object sender, MouseEventArgs e)
@@ -50,20 +104,16 @@ namespace WpfCPES
 
         private void btnArquivo1_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.DefaultExt = ".xls";
-            openFileDialog.Filter = "XLS Files (*.xls)|*.xls";
-
-            var resultado = openFileDialog.ShowDialog();
-
-            if (resultado == true)
+            txtArquivo1.Text = GetArquivos();
+            if (!String.IsNullOrEmpty(txtArquivo1.Text))
             {
-                string caminhoArquivo = openFileDialog.FileName;
-                stkMensagem.Visibility = Visibility.Hidden;
-                txtArquivo1.Text = caminhoArquivo;
                 btnArquivo2.IsEnabled = true;
                 stkArquivo2.Opacity = 1;
+                FecharMensagem();
+            }
+            else
+            {
+                txtArquivo1.Text = "...Informe a planilha das matrículas (PESQUISA)";
             }
         }
 
@@ -87,20 +137,16 @@ namespace WpfCPES
 
         private void btnArquivo2_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.DefaultExt = ".xls";
-            openFileDialog.Filter = "XLS Files (*.xls)|*.xls";
-
-            var resultado = openFileDialog.ShowDialog();
-
-            if (resultado == true)
+            txtArquivo2.Text = GetArquivos();
+            if (!String.IsNullOrEmpty(txtArquivo2.Text))
             {
-                string caminhoArquivo = openFileDialog.FileName;
-                stkMensagem.Visibility = Visibility.Hidden;
-                txtArquivo2.Text = caminhoArquivo;
                 btnArquivo3.IsEnabled = true;
                 stkArquivo3.Opacity = 1;
+                FecharMensagem();
+            }
+            else
+            {
+                txtArquivo2.Text = "...Informe a planilha dos endereços (RJCDC)";
             }
         }
 
@@ -124,20 +170,16 @@ namespace WpfCPES
 
         private void btnArquivo3_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.DefaultExt = ".xls";
-            openFileDialog.Filter = "XLS Files (*.xls)|*.xls";
-
-            var resultado = openFileDialog.ShowDialog();
-
-            if (resultado == true)
+            txtArquivo3.Text = GetArquivos();
+            if (!String.IsNullOrEmpty(txtArquivo3.Text))
             {
-                string caminhoArquivo = openFileDialog.FileName;
-                stkMensagem.Visibility = Visibility.Hidden;
-                txtArquivo3.Text = caminhoArquivo;
                 btnExecutar.IsEnabled = true;
                 stkRodape.Opacity = 1;
+                FecharMensagem();
+            }
+            else
+            {
+                txtArquivo3.Text = "...Informe a planilha das lotações (RJCD)";
             }
         }
 
@@ -161,8 +203,7 @@ namespace WpfCPES
 
         private void btnMensagem_Click(object sender, RoutedEventArgs e)
         {
-            txtMensagem.Text = string.Empty;
-            FadeOut(stkMensagem);
+            FecharMensagem();
         }
 
         #endregion
@@ -173,7 +214,7 @@ namespace WpfCPES
         {
             var template = btnExecutar.Template;
             var brdExecutar = (Border)template.FindName("brdExecutar", btnExecutar);
-            brdExecutar.Background = new SolidColorBrush(Color.FromRgb(91, 175, 70));            
+            brdExecutar.Background = new SolidColorBrush(Color.FromRgb(91, 175, 70));
         }
 
         private void btnExecutar_MouseLeave(object sender, MouseEventArgs e)
@@ -226,7 +267,7 @@ namespace WpfCPES
                 var colLotacao = planilhaLotacao.Select(s => s.Table.Columns).First();
 
                 string[] retorno = CPES.CPES.GetDados(planilhaParametro, planilhaEndereco, planilhaLotacao, colParametro, colEndereco, colLotacao);
-                
+
                 txtMensagem.Foreground = new SolidColorBrush(Color.FromRgb(60, 118, 61));
                 txtMensagem.Background = new SolidColorBrush(Color.FromRgb(223, 240, 216));
                 txtMensagem.Text = string.Empty;
@@ -251,7 +292,7 @@ namespace WpfCPES
                 erro.Mensagem = ex.Message;
                 erro.StackTrace = textoStackTrace;
                 string[] retorno = CPES.CPES.CreateCsvErro(erro);
-                
+
                 txtMensagem.Foreground = new SolidColorBrush(Color.FromRgb(169, 68, 66));
                 txtMensagem.Background = new SolidColorBrush(Color.FromRgb(242, 222, 222));
                 txtMensagem.Text = string.Empty;
@@ -264,11 +305,13 @@ namespace WpfCPES
             }
         }
 
-        #endregion        
+        #endregion
 
         #region Comum
 
-        public void FadeIn(StackPanel sender)
+        #region Fades
+
+        private void FadeIn(StackPanel sender)
         {
             sender.Visibility = Visibility.Visible;
 
@@ -278,7 +321,7 @@ namespace WpfCPES
                 To = 1.0,
                 FillBehavior = FillBehavior.Stop,
                 BeginTime = TimeSpan.FromSeconds(0),
-                Duration = new Duration(TimeSpan.FromSeconds(1))
+                Duration = new Duration(TimeSpan.FromSeconds(0.5))
             };
             var storyboard = new Storyboard();
 
@@ -287,9 +330,11 @@ namespace WpfCPES
             Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
             storyboard.Completed += delegate { sender.Visibility = Visibility.Visible; };
             storyboard.Begin();
+
+            MoverObjeto(sender);
         }
 
-        public void FadeOut(StackPanel sender)
+        private void FadeOut(StackPanel sender)
         {
             var a = new DoubleAnimation
             {
@@ -306,6 +351,58 @@ namespace WpfCPES
             Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
             storyboard.Completed += delegate { sender.Visibility = Visibility.Hidden; };
             storyboard.Begin();
+        }
+
+        #endregion
+
+        #region Mover Objetos
+
+        private void MoverObjeto(object sender)
+        {
+            stackPanel = sender as StackPanel;
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromMilliseconds(15);
+            dispatcherTimer.Tick += new EventHandler(MoverObjeto);
+            dispatcherTimer.Start();            
+        }
+
+        private void MoverObjeto(Object sender, EventArgs args)
+        {
+            value = value + 1;
+            Canvas.SetTop(stackPanel, value);
+
+            if (value > 30)
+            {
+                dispatcherTimer.Stop();
+            }
+        }  
+
+        #endregion
+
+        private string GetArquivos()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.DefaultExt = ".xls";
+            openFileDialog.Filter = "XLS Files (*.xls)|*.xls";
+
+            var resultado = openFileDialog.ShowDialog();
+
+            if (resultado == true)
+            {
+                return openFileDialog.FileName;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private void FecharMensagem()
+        {
+            txtMensagem.Text = string.Empty;
+            value = 0;
+            FadeOut(stkMensagem);
         }
 
         #endregion
