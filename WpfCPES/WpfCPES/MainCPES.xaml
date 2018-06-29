@@ -1,9 +1,9 @@
 ﻿<Window x:Name="WindowsCPES" x:Class="WpfCPES.MainCPES"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfCPES"
         mc:Ignorable="d"
         Title="CPES" Height="500" Width="1000" TextBlock.TextAlignment="Center" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
         Background="Purple" WindowStyle="None">
@@ -18,10 +18,10 @@
     </Window.Triggers>
     <Grid>
         <StackPanel x:Name="stkCabecalho" RenderTransformOrigin="0.615,0.587" Margin="0,0,0,465" Orientation="Horizontal" MouseDown="Window_MouseDown">
-            <Image Source="CPES_Icone.ico" Height="25" Margin="5,0,0,0"/>
+            <Image Source="img/CPES_Icone.ico" Height="25" Margin="5,0,0,0"/>
             <Label Height="auto" Content="CPES" Foreground="White" FontSize="10" VerticalAlignment="Center"/>
             <Label x:Name="labelCabecalho" Height="auto" Content="Bem vindo ao CPES" Margin="360,0,0,0" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
-            <Button x:Name="btnCabecalhoMinimizar" Height="auto" Content="-"  Foreground="White" FontSize="20" HorizontalAlignment="Right" Width="41" Margin="355,0,0,0" Click="btnCabecalhoMinimizar_Click"/>
+            <Button x:Name="btnCabecalhoMinimizar" Height="auto" Content="-"  Foreground="White" FontSize="20" HorizontalAlignment="Right" Width="41" Margin="358,0,0,0" Click="btnCabecalhoMinimizar_Click"/>
             <Button x:Name="btnCabecalhoFechar" Height="auto" Foreground="White" FontSize="20" HorizontalAlignment="Right" Width="41" Margin="0,0,0,0" MouseEnter="btnCabecalhoFechar_MouseEnter" MouseLeave="btnCabecalhoFechar_MouseLeave" Click="btnCabecalhoFechar_Click">
                 <Button.Template>
                     <ControlTemplate>
@@ -90,8 +90,8 @@
             </TextBox>
         </StackPanel>
         <Canvas>
-            <StackPanel x:Name="stkMensagem" Visibility="Hidden" Margin="10,180,10,94" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="151" Width="974" >
-                <TextBox x:Name="txtMensagem" IsReadOnly="True" Height="106" FontSize="15" Width="655" Margin="160,0,0,0">
+            <StackPanel x:Name="stkMensagem" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="119" Width="974" Canvas.Left="10" Canvas.Top="209" >
+                <TextBox x:Name="txtMensagem" IsReadOnly="True" FontSize="15" Width="655" Margin="160,25,0,0" MouseLeave="txtMensagem_MouseLeave" Height="84" VerticalAlignment="Top">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="6"/>
@@ -101,17 +101,13 @@
                         <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2"/>
                     </TextBox.Effect>
                 </TextBox>
-                <Button x:Name="btnMensagem" MouseEnter="btnMensagem_MouseEnter" MouseLeave="btnMensagem_MouseLeave" Click="btnMensagem_Click" Cursor="Hand" Margin="-60,80,0,0" Width="40" Height="20">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Border x:Name="brdMensagem" Width="40" Height="20" Background="LightGray" CornerRadius="6" BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left">
-                                <TextBlock Text="OK" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
             </StackPanel>
         </Canvas>
+        <Image x:Name="imgLoader" gif:ImageBehavior.AnimatedSource="img/loader.gif" Visibility="Hidden" Height="100" Width="100" Margin="-10,260,0,0" />
+        <Image x:Name="imgSetaEsquerda" Source="img/seta_esquerda.png" Visibility="Visible" Height="200" Width="auto" Margin="0,0,650,0"/>
+        <Image x:Name="imgSetaAcima" Source="img/seta_acima.png" Visibility="Hidden" Height="200" Width="auto" Margin="0,50,0,0"/>
+        <Image x:Name="imgSetaDireita" Source="img/seta_direita.png" Visibility="Hidden" Height="200" Width="auto" Margin="650,0,0,0"/>
+        <Image x:Name="imgSetaAbaixo" Source="img/seta_abaixo.png" Visibility="Hidden" Height="200" Width="auto" Margin="0,100,0,0"/>
         <StackPanel x:Name="stkRodape" RenderTransformOrigin="0.615,0.587" Margin="10,382,10,10" Orientation="Horizontal" Opacity="0.5" >
             <Button  x:Name="btnExecutar" IsEnabled="False" Margin="360,0,0,0" Width="250" Height="50" MouseEnter="btnExecutar_MouseEnter" MouseLeave="btnExecutar_MouseLeave" Click="btnExecutar_Click" Cursor="Hand">
                 <Button.Template>
