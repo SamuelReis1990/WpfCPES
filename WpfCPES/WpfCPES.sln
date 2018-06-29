@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCPES", "WpfCPES\WpfCPES.csproj", "{FEDE350F-8481-44FA-B369-48F973C030B3}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CPES", "CPES\CPES.vdproj", "{130B8D9B-9FD3-4600-AF25-ABAD4AADB849}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,9 @@ Global
 		{FEDE350F-8481-44FA-B369-48F973C030B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEDE350F-8481-44FA-B369-48F973C030B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEDE350F-8481-44FA-B369-48F973C030B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{130B8D9B-9FD3-4600-AF25-ABAD4AADB849}.Debug|Any CPU.ActiveCfg = Debug
+		{130B8D9B-9FD3-4600-AF25-ABAD4AADB849}.Release|Any CPU.ActiveCfg = Release
+		{130B8D9B-9FD3-4600-AF25-ABAD4AADB849}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
