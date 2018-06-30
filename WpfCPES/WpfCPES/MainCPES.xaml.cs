@@ -330,7 +330,9 @@ namespace WpfCPES
                 To = 1.0,
                 FillBehavior = FillBehavior.Stop,
                 BeginTime = TimeSpan.FromSeconds(0),
-                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+                Duration = new Duration(TimeSpan.FromSeconds(0.5)),
+                AutoReverse = false,
+                RepeatBehavior = new RepeatBehavior(1)
             };
             var storyboard = new Storyboard();
 
@@ -351,7 +353,9 @@ namespace WpfCPES
                 To = 0.0,
                 FillBehavior = FillBehavior.Stop,
                 BeginTime = TimeSpan.FromSeconds(0),
-                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+                Duration = new Duration(TimeSpan.FromSeconds(0.5)),
+                AutoReverse = false,
+                RepeatBehavior = new RepeatBehavior(1)                
             };
             var storyboard = new Storyboard();
 
