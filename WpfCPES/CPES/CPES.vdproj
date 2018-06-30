@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1FC3C8BE0F43C6B6C88BE00769FE7EEF"
-        "OwnerKey" = "8:_98BA0348EC4B4FB5B5F9851EC1DA33BF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_98BA0348EC4B4FB5B5F9851EC1DA33BF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -39,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FF166CE8BF74E9C723FF1D90559214F0"
+        "OwnerKey" = "8:_98BA0348EC4B4FB5B5F9851EC1DA33BF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FF7A69CC46E2429BAA21409B3C7BB024"
         "OwnerKey" = "8:_98BA0348EC4B4FB5B5F9851EC1DA33BF"
         "MsmSig" = "8:_UNDEFINED"
@@ -52,13 +52,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FF7A69CC46E2429BAA21409B3C7BB024"
+        "OwnerKey" = "8:_FF166CE8BF74E9C723FF1D90559214F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1FC3C8BE0F43C6B6C88BE00769FE7EEF"
+        "OwnerKey" = "8:_FF7A69CC46E2429BAA21409B3C7BB024"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -154,37 +154,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1FC3C8BE0F43C6B6C88BE00769FE7EEF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CPES, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_1FC3C8BE0F43C6B6C88BE00769FE7EEF"
-                    {
-                    "Name" = "8:CPES.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CPES.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_C02D0D43F0F54E3C93141D00B509696A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BF6FDED03A6DA85F463C466C64FA069E"
             {
             "AssemblyRegister" = "3:1"
@@ -234,6 +203,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FF166CE8BF74E9C723FF1D90559214F0"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CPESCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FF166CE8BF74E9C723FF1D90559214F0"
+                    {
+                    "Name" = "8:CPESCore.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CPESCore.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C02D0D43F0F54E3C93141D00B509696A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FF7A69CC46E2429BAA21409B3C7BB024"
@@ -324,7 +324,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CPES"
         "ProductCode" = "8:{4FC1A1A6-FC8A-47AF-8D79-776464D66E86}"
-        "PackageCode" = "8:{4C34C4CE-5CB2-4C5D-B6B8-1BDB8F0D0265}"
+        "PackageCode" = "8:{4BF5793F-A803-494A-ABD1-327445A4CD86}"
         "UpgradeCode" = "8:{6B054C7D-A3F5-43A8-A2AA-21F6F557E3FD}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -873,7 +873,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_98BA0348EC4B4FB5B5F9851EC1DA33BF"
             {
-            "SourcePath" = "8:..\\WpfCPES\\obj\\Release\\WpfCPES.exe"
+            "SourcePath" = "8:..\\WpfCPES\\obj\\Debug\\CPES.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C02D0D43F0F54E3C93141D00B509696A"
